@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - "./.env"
+    ports:
+      - "8000:8000"
+    depends_on:
+      auth-postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+  auth-postgres:
+    image: postgres:14
+    env_file:
+      - "./.env"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+    ports:
+      - "5432:5432"
