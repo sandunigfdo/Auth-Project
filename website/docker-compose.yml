@@ -13,7 +13,7 @@ services:
       auth-postgres:
         condition: service_healthy
     volumes:
-      - .:/app
+      - .:/auth
 
   auth-postgres:
     image: postgres:14
